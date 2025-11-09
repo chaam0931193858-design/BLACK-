@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>สำหรับแฟน — 1Y2M</title>
+<style>
+  :root{
+    --bg:#ffd7e6;
+    --accent:#ff6fa3;
+    --accent-dark:#ff3b82;
+    --text:#5b2b3a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: "Noto Sans Thai", "Helvetica Neue", Arial, sans-serif;
+    background: radial-gradient(circle at 10% 10%, #fff0f6 0%, var(--bg) 35%, #ffe6f1 100%);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .wrap{
+    position:relative;
+    width:100%;
+    max-width:520px;
+    text-align:center;
+    background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,242,247,0.9));
+    border-radius:20px;
+    padding:32px;
+    box-shadow: 0 10px 30px rgba(203,64,123,0.12), inset 0 1px 0 rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.6);
+    z-index:2;
+  }
+  h1{
+    margin:0 0 18px 0;
+    font-size:20px;
+    color:var(--accent-dark);
+    letter-spacing:0.4px;
+  }
+  .heart-btn{
+    position:relative;
+    width:220px;
+    height:200px;
+    margin:12px auto 18px auto;
+    cursor:pointer;
+    border:none;
+    background:transparent;
+    outline:none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .heart{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(1);
+    width:180px;
+    height:160px;
+    transition:transform .15s ease;
+  }
+  .heart .shape{
+    position:relative;
+    width:100%;
+    height:100%;
+    transform:rotate(-45deg);
+  }
+  .heart .shape::before,
+  .heart .shape::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    box-shadow: 0 8px 20px rgba(255,102,160,0.18);
+  }
+  .heart .shape::before{ top:-50%; left:0; }
+  .heart .shape::after{ left:50%; top:0; }
+  .heart .label{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) rotate(45deg);
+    font-weight:700;
+    font-size:34px;
+    color:white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .heart.pulse{
+    animation:pulse 0.6s cubic-bezier(.2,.9,.2,1);
+  }
+  @keyframes pulse{
+    0%{ transform:translate(-50%,-50%) scale(1) }
+    30%{ transform:translate(-50%,-50%) scale(1.18) }
+    60%{ transform:translate(-50%,-50%) scale(0.96) }
+    100%{ transform:translate(-50%,-50%) scale(1) }
+  }
+  .notes{
+    text-align:left;
+    margin-top:8px;
+    padding:14px 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,242,247,0.8));
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.5);
+  }
+  .notes ol{
+    margin:0;
+    padding-left:20px;
+    color:#6d3140;
+    line-height:1.6;
+    font-size:16px;
+    font-weight:600;
+  }
+  .small{
+    margin-top:12px;
+    font-size:13px;
+    color:#7a4154;
+    opacity:0.9;
+  }
+  .floating-heart{
+    position:fixed;
+    width:22px;
+    height:22px;
+    transform:rotate(-45deg);
+    pointer-events:none;
+    z-index:1;
+    background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    border-radius:6px;
+    opacity:0;
+    filter:drop-shadow(0 4px 10px rgba(255,105,165,0.15));
+  }
+  .floating-heart::before,
+  .floating-heart::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:inherit;
+  }
+  .floating-heart::before{ top:-50%; left:0; }
+  .floating-heart::after{ left:50%; top:0; }
+  .popup{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:80px;
+    background:linear-gradient(180deg, #fff, #fff0f6);
+    border-radius:14px;
+    padding:12px 18px;
+    font-weight:700;
+    color:var(--accent-dark);
+    box-shadow: 0 8px 24px rgba(203,64,123,0.14);
+    opacity:0;
+    pointer-events:none;
+    z-index:5;
+  }
+  .popup.show{ animation:popupIn 1.2s ease forwards; }
+  @keyframes popupIn{
+    0%{transform:translateX(-50%) translateY(18px);opacity:0}
+    20%{transform:translateX(-50%) translateY(-16px);opacity:1}
+    100%{transform:translateX(-50%) translateY(-60px);opacity:0}
+  }
+  @media(max-width:420px){
+    .heart-btn{ width:170px; height:150px;}
+    .heart{ width:150px; height:130px;}
+    .heart .label{ font-size:28px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>สำหรับคนพิเศษ 💕</h1>
+    <button class="heart-btn" id="heartBtn">
+      <div class="heart" id="heart">
+        <div class="shape"></div>
+        <div class="label">1Y2M</div>
+      </div>
+    </button>
+    <div class="notes">
+      <ol>
+        <li>รักแฟนมากๆเลยน้า</li>
+        <li>ขอบคุณนะที่ยังรักกัน</li>
+        <li>อยู่แบบนี้ไปนานๆน้า</li>
+      </ol>
+    </div>
+    <div class="small">กดหัวใจเพื่อส่งข้อความหวานๆ ✨</div>
+  </div>
+  <div class="popup" id="popup">I Love You</div>
+<script>
+(function(){
+  const btn=document.getElementById('heartBtn');
+  const heart=document.getElementById('heart');
+  const popup=document.getElementById('popup');
+  function createHeart(x,y,size,delay,speed){
+    const h=document.createElement('div');
+    h.className='floating-heart';
+    document.body.appendChild(h);
+    h.style.left=x+'px';
+    h.style.top=y+'px';
+    h.style.width=h.style.height=size+'px';
+    h.style.opacity='1';
+    h.animate([
+      {transform:`translateY(0px) rotate(-45deg)`,opacity:1},
+      {transform:`translateY(-${window.innerHeight+100}px) rotate(45deg)`,opacity:0}
+    ],{duration:speed,easing:'ease-out',delay:delay});
+    setTimeout(()=>h.remove(),speed+delay);
+  }
+  setInterval(()=>{
+    const x=Math.random()*window.innerWidth;
+    const size=10+Math.random()*20;
+    const speed=4000+Math.random()*4000;
+    createHeart(x,window.innerHeight-30,size,0,speed);
+  },350);
+  function showPopup(){
+    popup.classList.remove('show');
+    void popup.offsetWidth;
+    popup.classList.add('show');
+    setTimeout(()=>popup.classList.remove('show'),1200);
+  }
+  btn.addEventListener('click',()=>{
+    heart.classList.remove('pulse'); void heart.offsetWidth; heart.classList.add('pulse');
+    showPopup();
+  });
+})();
+</script>
+</body>
+</html>
