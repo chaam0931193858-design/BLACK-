@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>บอกรักแฟนของเค้า 💗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Prompt",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    body{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:radial-gradient(circle at top,#ffe6f2,#ffd1dc,#ffc4e1);
+      color:#444;
+    }
+    .container{
+      width:100%;
+      max-width:480px;
+      padding:20px;
+    }
+    .card{
+      background:#ffffffee;
+      border-radius:24px;
+      padding:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.1);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .page{display:none;animation:fade .4s ease;}
+    .page.active{display:block;}
+    @keyframes fade{
+      from{opacity:0;transform:translateY(8px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    /* รูปบนหัวใจ */
+    .photo-row{
+      display:flex;
+      justify-content:center;
+      gap:16px;
+      margin-bottom:12px;
+    }
+    .photo-row img{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid #ff9ac2;
+      box-shadow:0 6px 16px rgba(255,92,141,.4);
+      background:#fff;
+    }
+
+    /* หัวใจ */
+    .heart-wrapper{
+      display:flex;
+      justify-content:center;
+      margin:12px 0 8px;
+    }
+    .heart{
+      width:140px;
+      height:140px;
+      position:relative;
+      cursor:pointer;
+    }
+    @keyframes heartbeat{
+      0%{transform:translateX(-50%) rotate(-45deg) scale(1);}
+      20%{transform:translateX(-50%) rotate(-45deg) scale(1.12);}
+      40%{transform:translateX(-50%) rotate(-45deg) scale(1);}
+      60%{transform:translateX(-50%) rotate(-45deg) scale(1.16);}
+      100%{transform:translateX(-50%) rotate(-45deg) scale(1);}
+    }
+    .heart-shape{
+      position:absolute;
+      top:40px;
+      left:50%;
+      width:90px;
+      height:90px;
+      background:linear-gradient(135deg,#ff99c8,#ff5c8d);
+      border-radius:20px;
+      transform:translateX(-50%) rotate(-45deg);
+      box-shadow:0 10px 20px rgba(255,92,141,.4);
+      animation:heartbeat 1.5s infinite;
+    }
+    .heart-shape::before,
+    .heart-shape::after{
+      content:"";
+      position:absolute;
+      width:90px;
+      height:90px;
+      background:linear-gradient(135deg,#ffb3d1,#ff5c8d);
+      border-radius:50%;
+    }
+    .heart-shape::before{
+      top:-45px;
+      left:0;
+    }
+    .heart-shape::after{
+      left:45px;
+      top:0;
+    }
+    .heart-text{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:30px;
+      text-shadow:0 2px 5px rgba(0,0,0,.35);
+      pointer-events:none;
+    }
+    h2,h3{color:#ff4f8b;margin-bottom:6px;}
+    .hint{font-size:13px;color:#ff5c8d;margin-bottom:4px;}
+    .small-text{font-size:12px;color:#777;margin-top:4px;}
+    .list-text{
+      text-align:left;
+      font-size:14px;
+      line-height:1.6;
+      margin-top:10px;
+    }
+    .list-text p{margin-bottom:3px;}
+    .note-box{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:#fff5fb;
+      border:1px dashed #ff9ac2;
+      font-size:13px;
+      line-height:1.7;
+      text-align:left;
+    }
+    .btn-row{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      margin-top:18px;
+    }
+    button{
+      border:none;
+      border-radius:999px;
+      padding:10px 22px;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .btn-love{
+      background:linear-gradient(135deg,#ff76b8,#ff4f8b);
+      color:#fff;
+      box-shadow:0 4px 10px rgba(255,79,139,.4);
+    }
+    .btn-nolove{
+      background:#ffe2e2;
+      color:#ff4f4f;
+      box-shadow:0 4px 10px rgba(255,79,79,.25);
+    }
+    button:active{transform:scale(.96);box-shadow:none;}
+
+    /* หน้า 3 */
+    .textarea-box{text-align:left;margin-top:10px;}
+    textarea{
+      width:100%;
+      min-height:130px;
+      border-radius:14px;
+      border:1px solid #ffc2dd;
+      padding:10px;
+      font-size:14px;
+      resize:vertical;
+      background:#fff9fc;
+      outline:none;
+    }
+    textarea:focus{
+      border-color:#ff4f8b;
+      box-shadow:0 0 0 2px #ffb6d6;
+    }
+    .top-text{font-size:13px;color:#555;margin-top:4px;}
+    .actions-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .btn-envelope{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #ffc2dd;
+      color:#ff4f8b;
+      font-size:13px;
+    }
+    .btn-envelope span{font-size:18px;}
+    .btn-save{font-size:13px;padding:8px 18px;}
+    .small-footer{font-size:11px;opacity:.7;margin-top:10px;}
+
+    /* overlays */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:999;
+    }
+    .overlay.hidden{display:none;}
+    .overlay-box{
+      background:#fff;
+      padding:20px 22px;
+      border-radius:20px;
+      text-align:center;
+      max-width:300px;
+      box-shadow:0 10px 25px rgba(0,0,0,.2);
+    }
+    .overlay-box h3{margin-bottom:6px;}
+    .overlay-box p{font-size:13px;color:#777;}
+    .angry-emoji{font-size:80px;margin-bottom:6px;}
+
+    /* modal ข้อความ */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.4);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:998;
+    }
+    .modal.hidden{display:none;}
+    .modal-content{
+      background:#fff;
+      border-radius:18px;
+      padding:16px;
+      width:90%;
+      max-width:380px;
+      max-height:70vh;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:4px;
+    }
+    .modal-header h3{margin:0;font-size:16px;color:#ff4f8b;}
+    .modal-close{
+      border-radius:50%;
+      width:26px;
+      height:26px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      background:#ffe4f0;
+      color:#ff4f8b;
+      border:none;
+      cursor:pointer;
+    }
+    .messages-list{
+      overflow-y:auto;
+      padding-right:4px;
+    }
+    .message-item{
+      padding:8px 10px;
+      border-radius:12px;
+      background:#fff7fc;
+      border:1px solid #ffd1ea;
+      margin-bottom:8px;
+      font-size:13px;
+      text-align:left;
+      position:relative;
+      padding-right:70px;
+    }
+    .message-item button{
+      position:absolute;
+      right:8px;
+      top:50%;
+      transform:translateY(-50%);
+      padding:4px 10px;
+      font-size:11px;
+      border-radius:999px;
+      background:#ffdfeb;
+      color:#ff4f8b;
+      box-shadow:none;
+    }
+    .empty-text{
+      font-size:13px;
+      color:#777;
+      text-align:center;
+      margin-top:10px;
+    }
+
+    @media(max-width:480px){
+      .card{padding:18px 16px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+
+      <!-- หน้า 1 -->
+      <section id="page1" class="page active">
+        <h2>บอกรักแฟนของเค้า 💗</h2>
+        <p class="hint">กดหัวใจไปต่อได้เลยน้า</p>
+
+        <div class="photo-row">
+          <img src="photo1.jpg" alt="photo1" />
+          <img src="photo2.jpg" alt="photo2" />
+        </div>
+
+        <div class="heart-wrapper">
+          <div class="heart" id="heartButton">
+            <div class="heart-shape"></div>
+            <div class="heart-text">1Y3M</div>
+          </div>
+        </div>
+
+        <div class="list-text">
+          <p>1 ขอบคุณนะที่ยังรักกัน</p>
+          <p>2 รักแฟนมากๆเลยนะ</p>
+          <p>3 ยังรักเหมือนวันแรก</p>
+          <p>4 อยู่กันไปแบบนี้ตลอดเลยนะ</p>
+        </div>
+
+        <div class="note-box">
+          ขอโทษที่ไม่ค่อยมีเวลาให้ อาจทำให้น้อยใจไปบ้างแต่เค้าก็รักแฟนตลอด
+          ไม่มีวันไหนที่ไม่รักแฟนเลย อาจดูไม่สนใจแต่ดูอยู่ตลอดเลย
+          อย่าน้อยใจไปเลยนะเบบี๋ของเค้า 💌
+        </div>
+      </section>
+
+      <!-- หน้า 2 -->
+      <section id="page2" class="page">
+        <h2>คำถามที่ 1</h2>
+        <h3>รักเค้ามั้ยค้าบบ 🥺</h3>
+
+        <div class="btn-row">
+          <button class="btn-love" id="btnLove">รัก</button>
+          <button class="btn-nolove" id="btnNoLove">ไม่รัก</button>
+        </div>
+
+        <p class="small-text">ตอบดีๆ น้า เค้าแอบลุ้นอยู่ตรงนี้ 💕</p>
+      </section>
+
+      <!-- หน้า 3 -->
+      <section id="page3" class="page">
+        <h2>ลองบอกเค้าหน่อย 💌</h2>
+        <p class="top-text">ลองบอกเค้าหน่อยว่าทำไมถึงรักเค้า</p>
+
+        <div class="textarea-box">
+          <textarea id="messageInput" placeholder="พิมพ์บอกรัก บอกความในใจให้เค้าอ่านได้เลยน้า..."></textarea>
+        </div>
+
+        <p class="small-text">
+          * ข้อความที่พิมจะเห็นทุกคนอยู่ตลอด (แต่จะเก็บอยู่ในเครื่องนี้น้า)
+        </p>
+
+        <div class="actions-row">
+          <button class="btn-save btn-love" id="saveMessageBtn">บันทึกข้อความให้เค้า</button>
+          <button class="btn-envelope" id="openMessagesBtn">
+            <span>✉️</span> ดูข้อความที่เขียนไว้
+          </button>
+        </div>
+
+        <p class="small-footer">ถ้าวันไหนงอนกัน กลับมาอ่านตรงนี้ได้น้า 💞</p>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- overlay ตอนตอบว่ารัก -->
+  <div id="loveOverlay" class="overlay hidden">
+    <div class="overlay-box">
+      <h3>รักแฟนเหมือนกัน 💖</h3>
+      <p>ขอเวลาเค้าแป๊บ กำลังพาไปหน้าต่อไปน้า...</p>
+    </div>
+  </div>
+
+  <!-- overlay ตอนตอบไม่รัก -->
+  <div id="angryOverlay" class="overlay hidden">
+    <div class="overlay-box">
+      <div class="angry-emoji">😡</div>
+      <h3>เค้าโกรธแล้วนะ</h3>
+      <p>พูดเล่นใช่มั้ยยย ยอมรับว่ารักเค้าเดี๋ยวนี้เลย 💢</p>
+    </div>
+  </div>
+
+  <!-- modal ดูข้อความ -->
+  <div id="messagesModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>จดหมายถึงแฟน 💌</h3>
+        <button class="modal-close" id="closeMessagesBtn">×</button>
+      </div>
+      <div class="messages-list" id="messagesList"></div>
+      <div class="empty-text" id="emptyMessagesText">
+        ยังไม่มีข้อความเลยน้า ลองพิมพ์บอกรักเค้าดู 💕
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // เปลี่ยนหน้า
+    function showPage(id){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    const heartButton = document.getElementById('heartButton');
+    const btnLove = document.getElementById('btnLove');
+    const btnNoLove = document.getElementById('btnNoLove');
+    const loveOverlay = document.getElementById('loveOverlay');
+    const angryOverlay = document.getElementById('angryOverlay');
+
+    heartButton.addEventListener('click',()=>{
+      showPage('page2');
+    });
+
+    // ปุ่มรัก
+    btnLove.addEventListener('click',()=>{
+      loveOverlay.classList.remove('hidden');
+      setTimeout(()=>{
+        loveOverlay.classList.add('hidden');
+        showPage('page3');
+      },4000);
+    });
+
+    // ปุ่มไม่รัก
+    btnNoLove.addEventListener('click',()=>{
+      angryOverlay.classList.remove('hidden');
+      setTimeout(()=>{
+        angryOverlay.classList.add('hidden');
+      },4000);
+    });
+
+    // จัดการข้อความ
+    const MESSAGE_KEY = 'loveMessages_v1';
+    const messageInput = document.getElementById('messageInput');
+    const saveMessageBtn = document.getElementById('saveMessageBtn');
+    const openMessagesBtn = document.getElementById('openMessagesBtn');
+    const closeMessagesBtn = document.getElementById('closeMessagesBtn');
+    const messagesModal = document.getElementById('messagesModal');
+    const messagesList = document.getElementById('messagesList');
+    const emptyMessagesText = document.getElementById('emptyMessagesText');
+
+    function loadMessages(){
+      try{
+        const raw = localStorage.getItem(MESSAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){
+        return [];
+      }
+    }
+    function saveMessages(arr){
+      localStorage.setItem(MESSAGE_KEY, JSON.stringify(arr));
+    }
+    function renderMessages(){
+      const msgs = loadMessages();
+      messagesList.innerHTML = '';
+      if(!msgs.length){
+        emptyMessagesText.style.display = 'block';
+        return;
+      }
+      emptyMessagesText.style.display = 'none';
+      msgs.forEach((txt,idx)=>{
+        const item = document.createElement('div');
+        item.className = 'message-item';
+        const span = document.createElement('div');
+        span.textContent = txt;
+        const del = document.createElement('button');
+        del.textContent = 'ลบข้อความ';
+        del.addEventListener('click',()=>{
+          const current = loadMessages();
+          current.splice(idx,1);
+          saveMessages(current);
+          renderMessages();
+        });
+        item.appendChild(span);
+        item.appendChild(del);
+        messagesList.appendChild(item);
+      });
+    }
+
+    saveMessageBtn.addEventListener('click',()=>{
+      const text = messageInput.value.trim();
+      if(!text){
+        alert('พิมพ์ข้อความบอกรักเค้าก่อนน้า 💕');
+        return;
+      }
+      const msgs = loadMessages();
+      msgs.push(text);
+      saveMessages(msgs);
+      messageInput.value='';
+      alert('บันทึกข้อความให้แฟนเรียบร้อยแล้วน้า 💌');
+    });
+
+    openMessagesBtn.addEventListener('click',()=>{
+      renderMessages();
+      messagesModal.classList.remove('hidden');
+    });
+
+    closeMessagesBtn.addEventListener('click',()=>{
+      messagesModal.classList.add('hidden');
+    });
+
+    messagesModal.addEventListener('click',e=>{
+      if(e.target === messagesModal){
+        messagesModal.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
