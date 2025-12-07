@@ -1,0 +1,39 @@
+
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สำหรับแฟนของเค้า 💖</title>
+<style>
+body{margin:0;font-family:Prompt,sans-serif;background:linear-gradient(135deg,#ffd1e8,#ffe9f4);min-height:100vh;display:flex;justify-content:center;align-items:center}
+.card{background:#fff;max-width:420px;width:100%;border-radius:24px;padding:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.page{display:none}.page.active{display:block}
+.photo-row{display:flex;justify-content:center;gap:16px}
+.photo-row img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #ff7fb0}
+.heart{margin:16px auto;width:120px;height:120px;position:relative;cursor:pointer}
+.heart-shape{width:80px;height:80px;background:#ff5c8d;position:absolute;top:20px;left:50%;transform:translateX(-50%) rotate(-45deg);border-radius:20px}
+.heart-shape:before,.heart-shape:after{content:"";width:80px;height:80px;background:#ff5c8d;border-radius:50%;position:absolute}
+.heart-shape:before{top:-40px}.heart-shape:after{left:40px}
+.heart-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:26px}
+button{border:none;border-radius:999px;padding:10px 20px;font-size:14px;cursor:pointer}
+.love{background:#ff5c8d;color:#fff}.no{background:#ffe0e0;color:#ff3333}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;color:#fff;font-size:24px}
+.hidden{display:none}
+</style></head>
+<body>
+<div class="card">
+<section id="p1" class="page active">
+<div class="photo-row"><img src="photo1.jpg"><img src="photo2.jpg"></div>
+<div class="heart" id="h"><div class="heart-shape"></div><div class="heart-text">1Y3M</div></div>
+</section>
+<section id="p2" class="page"><h3>รักเค้ามั้ยค้าบบ 🥺</h3><br>
+<button class="love" id="y">รัก</button> <button class="no" id="n">ไม่รัก</button></section>
+</div>
+<div id="ok" class="overlay hidden">รักแฟนเหมือนกัน 💖</div>
+<div id="bad" class="overlay hidden">😡</div>
+<audio id="m" src="music.mp3" loop></audio>
+<script>
+const p1=p1=document.getElementById('p1'),p2=document.getElementById('p2'),m=document.getElementById('m');
+h.onclick=()=>{p1.classList.remove('active');p2.classList.add('active');m.play();}
+y.onclick=()=>{ok.classList.remove('hidden');setTimeout(()=>location.reload(),4000)}
+n.onclick=()=>{bad.classList.remove('hidden');setTimeout(()=>bad.classList.add('hidden'),4000)}
+</script>
+</body></html>
